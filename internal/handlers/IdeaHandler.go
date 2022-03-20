@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"PortalClient/internal/gateways"
 	"PortalClient/pkg/utils"
 	"io/ioutil"
 	"net/http"

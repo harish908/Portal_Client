@@ -1,4 +1,4 @@
-module PortalClient
+module github.com/harish908/Portal_Client
 
 go 1.15
 

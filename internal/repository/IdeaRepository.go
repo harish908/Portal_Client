@@ -1,9 +1,10 @@
 package repository
 
 import (
-	"PortalClient/configs"
-	"PortalClient/internal/models"
 	"context"
+
+	"github.com/harish908/Portal_Client/configs"
+	"github.com/harish908/Portal_Client/internal/models"
 
 	"github.com/opentracing/opentracing-go"
 	otlog "github.com/opentracing/opentracing-go/log"

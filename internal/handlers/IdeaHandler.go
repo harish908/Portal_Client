@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"PortalClient/pkg/utils"
-	"io/ioutil"
 	"net/http"
+
+	"github.com/harish908/Portal_Client/internal/gateways"
 
 	"github.com/pkg/errors"
 )
@@ -111,21 +111,21 @@ func GetIdeasHandler(w http.ResponseWriter, r *http.Request, resp *ServerResp) {
 // @Param request body data.Idea true "Post ideas"
 // @Success 200 {string} string "success"
 // @Router /api/postIdea [post]
-func PostIdeaHandler(w http.ResponseWriter, r *http.Request, resp *ServerResp) {
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		resp.err = errors.Wrap(err, "Unable to read data")
-		return
-	}
+// func PostIdeaHandler(w http.ResponseWriter, r *http.Request, resp *ServerResp) {
+// 	body, err := ioutil.ReadAll(r.Body)
+// 	if err != nil {
+// 		resp.err = errors.Wrap(err, "Unable to read data")
+// 		return
+// 	}
 
-	response, err := gateways.PostIdea(body, resp.ctx)
-	if err != nil {
-		resp.err = err
-		return
-	}
+// 	response, err := gateways.PostIdea(body, resp.ctx)
+// 	if err != nil {
+// 		resp.err = err
+// 		return
+// 	}
 
-	err = utils.ToJSON(w, response)
-	if err != nil {
-		resp.err = errors.Wrap(err, "Unable to marshal json")
-	}
-}
+// 	err = utils.ToJSON(w, response)
+// 	if err != nil {
+// 		resp.err = errors.Wrap(err, "Unable to marshal json")
+// 	}
+// }

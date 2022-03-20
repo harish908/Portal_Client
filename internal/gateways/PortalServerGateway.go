@@ -1,8 +1,9 @@
 package gateways
 
 import (
-	"PortalClient/pkg/restApi"
 	"context"
+
+	"github.com/harish908/Portal_Client/pkg/restApi"
 
 	"github.com/spf13/viper"
 )

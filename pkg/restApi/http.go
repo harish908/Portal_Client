@@ -1,12 +1,13 @@
 package restApi
 
 import (
-	"PortalClient/pkg/tracing"
 	"bytes"
 	"context"
 	"io/ioutil"
 	"net/http"
 	"time"
+
+	"github.com/harish908/Portal_Client/pkg/tracing"
 
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"

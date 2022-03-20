@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"PortalClient/pkg/tracing"
+	"github.com/harish908/Portal_Client/pkg/tracing"
 
 	"github.com/opentracing/opentracing-go"
 )

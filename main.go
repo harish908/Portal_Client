@@ -1,9 +1,10 @@
 package main
 
 import (
-	"PortalClient/cmd"
 	"fmt"
 	"os"
+
+	"github.com/harish908/Portal_Client/cmd"
 )
 
 // @title Orders API

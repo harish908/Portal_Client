@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    iam.amazonaws.com/role: "EKS-Image_Builder"
+spec:
+  containers:
+  - name: golang
+    image: golang: 1.15
+    command: ['cat']                                # use cat to keep container alive during jenkins build
+    tty: true                                       # required for cat
+  - name: kaniko
+    image: gcr.io/kaniko-project/executer:debug
+    command: ['cat']                                # use cat to keep container alive during jenkins build
+    tty: true                                       # required for cat
+  - name: argocd
+    image: argoproj/argocd:v2.3.2
+    command: ['cat']                                # use cat to keep container alive during jenkins build
+    tty: true                                       # required for cat

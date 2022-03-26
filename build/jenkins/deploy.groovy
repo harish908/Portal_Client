@@ -15,10 +15,10 @@ pipeline{
         stage('Front'){
             agent{
                 docker{ image 'node:16-alpine' }
-                steps{
-                    sh 'node --version'
-                }
             }
+            steps{
+                    sh 'node --version'
+            }  
         }
     }
 }

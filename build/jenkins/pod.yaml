@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
   - name: golang
-    image: golang: 1.15
+    image: golang:1.15
     command: ['cat']                                # use cat to keep container alive during jenkins build
     tty: true                                       # required for cat
   - name: kaniko

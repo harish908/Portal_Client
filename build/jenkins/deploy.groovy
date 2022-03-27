@@ -48,7 +48,10 @@ pipeline{
 
         stage('checkout'){
             agent{
-                docker { image 'alpine/git' }
+                docker{ 
+                    image 'alpine/git:latest' 
+                    args '--entrypoint='
+                }
             }
             steps{
                 script{

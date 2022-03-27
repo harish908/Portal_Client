@@ -13,20 +13,24 @@ pipeline{
     }
     stages{
         stage('checkout'){
-            steps{
+            node{
+                steps{
                 script{
                     echo "DEPLOY BRANCH: ${params.DEPLOY_BRANCH}"
                     sh(script: "git checkout ${params.DEPLOY_BRANCH}")
                 }
             }
+            }
         }
 
         stage('env'){
-            steps{
+            node{
+                steps{
                 script{
                     env.REVISION = sh(script: "git rev-parse -short HEAD", returnStdout: true).trim()
                     env.ECR_PORTAL_IMAGE = "${ECR_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/${DOMAIN}/${SERVICE}:${REVISION}.${BUILD_NUMBER}"
                 }
+            }
             }
         }
 

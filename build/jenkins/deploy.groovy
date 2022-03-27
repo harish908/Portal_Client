@@ -1,7 +1,4 @@
 pipeline{
-    agent{
-        docker { image 'alpine:latest' }
-    }
     parameters{
         string(name: "DOMAIN", defaultValue: "portal", description: "Portal Domain")
         string(name: "SERVICE", defaultValue: "portal-client", description: "Portal Client Service")

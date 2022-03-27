@@ -12,12 +12,32 @@ pipeline{
         DEPLOY_TARGET_ACCOUNT   = '859114173848'
     }
     stages{
-        stage('Front'){
+        stage('checkout'){
+            steps{
+                script{
+                    echo "DEPLOY BRANCH: ${params.DEPLOY_BRANCH}"
+                    sh(script: "git checkout ${params.DEPLOY_BRANCH}")
+                }
+            }
+        }
+
+        stage('env'){
+            steps{
+                script{
+                    env.REVISION = sh(script: "git rev-parse -short HEAD", returnStdout: true).trim()
+                    env.ECR_PORTAL_IMAGE = "${ECR_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/${DOMAIN}/${SERVICE}:${REVISION}.${BUILD_NUMBER}"
+                }
+            }
+        }
+
+        stage('image'){
             agent{
-                docker{ image 'node:16-alpine' }
+                docker{ image 'gcr.io/kaniko-project/executor:debug' }
             }
             steps{
-                    sh 'node --version'
+                withAWS(role: "${DEPLOYMENT_ROLE}", roleAccount: "${ECR_ACCOUNT_ID}", region: "${ECR_REGION}"){
+                    sh "/kaniko/executor -f Dockerfile -c `pwd` --skip-tls-verify --cache=true --destination=${ECR_IMAGE}"
+                }
             }  
         }
     }

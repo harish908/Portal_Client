@@ -24,7 +24,7 @@ pipeline{
                     echo "DEPLOY BRANCH: ${params.DEPLOY_BRANCH}"
                     sh(script: "git checkout ${params.DEPLOY_BRANCH}")
                     env.REVISION = sh(script: "git rev-parse -short HEAD", returnStdout: true).trim()
-                    env.ECR_PORTAL_IMAGE = "${ECR_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/${DOMAIN}/${SERVICE}:${REVISION}.${BUILD_NUMBER}"
+                    env.ECR_PORTAL_IMAGE = "${ECR_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/${DOMAIN}:latest"
                 }
             }
         }
@@ -33,7 +33,7 @@ pipeline{
             agent{
                 docker{ 
                     image 'gcr.io/kaniko-project/executor:debug'        // use debug version to keep container alive
-                    args '--user 0 --entrypoint='
+                    args '--user 0 --entrypoint='                       // run as root user
                 }
             }
             steps{

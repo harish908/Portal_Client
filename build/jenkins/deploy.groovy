@@ -30,21 +30,24 @@ pipeline{
         }
 
         stage('image'){
-            agent{
-                docker{ 
-                    image 'gcr.io/kaniko-project/executor:debug'        // use debug version to keep container alive
-                    args '--entrypoint='
-                }
-            }
+            // agent{
+            //     docker{ 
+            //         image 'gcr.io/kaniko-project/executor:debug'        // use debug version to keep container alive
+            //         args '--entrypoint='
+            //     }
+            // }
+            agent {
+    kubernetes {
+      yamlFile 'build/jenkins/pod.yaml'
+    }
+  }
             steps{
-                // withAWS(role: "${DEPLOYMENT_ROLE}", roleAccount: "${ECR_ACCOUNT_ID}", region: "${ECR_REGION}"){
-                //     withCredentials([aws(credentialsId: "$GITHUB_CREDENTIALS", variable: "GITHUB_TOKEN")]) {
-                //         sh "/kaniko/executor -f Dockerfile -c `pwd` --skip-tls-verify --cache=true --destination=${ECR_PORTAL_IMAGE}"
-                //     }
-                // }
-                withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID', credentialsId:'harish-aws-creds', secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]){
-                    sh "/kaniko/executor --dockerfile=Dockerfile --context=pathMounted/ --destination=${ECR_PORTAL_IMAGE}"
+                container('kaniko'){
+                    withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID', credentialsId:'harish-aws-creds', secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]){
+                    sh "/kaniko/executor -f Dockerfile -c `pwd` --skip-tls-verify --cache=true --destination=${ECR_PORTAL_IMAGE}"
                 }
+                }
+                
             }
         }
     }

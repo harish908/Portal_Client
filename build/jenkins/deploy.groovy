@@ -12,17 +12,7 @@ pipeline{
         DEPLOY_TARGET_ACCOUNT   = '859114173848'
     }
     stages{
-        // stage('checkout'){
-        //     agent{
-        //         docker { image 'alpine/git:latest' }
-        //     }
-        //     steps{
-        //         script{
-        //             echo "DEPLOY BRANCH: ${params.DEPLOY_BRANCH}"
-        //             sh(script: "git checkout ${params.DEPLOY_BRANCH}")
-        //         }
-        //     }
-        // }
+        
 
         // stage('env'){
         //     agent{
@@ -54,6 +44,18 @@ pipeline{
             steps{
                 sh 'node --version'
             }    
+        }
+
+        stage('checkout'){
+            agent{
+                docker { image 'alpine/git:latest' }
+            }
+            steps{
+                script{
+                    echo "DEPLOY BRANCH: ${params.DEPLOY_BRANCH}"
+                    sh(script: "git checkout ${params.DEPLOY_BRANCH}")
+                }
+            }
         }
     }
 }

@@ -37,17 +37,23 @@ pipeline{
         // }
 
         stage('image'){
+            // agent{
+            //     docker{ image 'gcr.io/kaniko-project/executor:debug' }
+            // }
+            // steps{
+            //     script{
+            //         env.ECR_PORTAL_IMAGE = "${ECR_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/${DOMAIN}/${SERVICE}:123456.${BUILD_NUMBER}"
+            //     }
+            //     withAWS(role: "${DEPLOYMENT_ROLE}", roleAccount: "${ECR_ACCOUNT_ID}", region: "${ECR_REGION}"){
+            //         sh "/kaniko/executor -f Dockerfile -c `pwd` --skip-tls-verify --cache=true --destination=${ECR_PORTAL_IMAGE}"
+            //     }
+            // }  
             agent{
-                docker{ image 'gcr.io/kaniko-project/executor:debug' }
+                docker{ image 'node:16-alpine' }
             }
             steps{
-                script{
-                    env.ECR_PORTAL_IMAGE = "${ECR_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/${DOMAIN}/${SERVICE}:123456.${BUILD_NUMBER}"
-                }
-                withAWS(role: "${DEPLOYMENT_ROLE}", roleAccount: "${ECR_ACCOUNT_ID}", region: "${ECR_REGION}"){
-                    sh "/kaniko/executor -f Dockerfile -c `pwd` --skip-tls-verify --cache=true --destination=${ECR_PORTAL_IMAGE}"
-                }
-            }  
+                sh 'node --version'
+            }    
         }
     }
 }

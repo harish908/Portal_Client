@@ -48,7 +48,7 @@ pipeline{
 
         stage('checkout'){
             agent{
-                docker { image 'alpine/git:latest' }
+                docker { image 'alpine/git' }
             }
             steps{
                 script{

@@ -33,7 +33,7 @@ pipeline{
             agent{
                 docker{ 
                     image 'gcr.io/kaniko-project/executor:debug'        // use debug version to keep container alive
-                    args '--entrypoint='
+                    args '--user 0 --entrypoint='
                 }
             }
             steps{

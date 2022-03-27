@@ -43,7 +43,8 @@ pipeline{
                 //     }
                 // }
                 withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID', credentialsId:'harish-aws-creds', secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]){
-                    sh "/kaniko/executor -f Dockerfile -c `pwd` --skip-tls-verify --cache=true --destination=${ECR_PORTAL_IMAGE}"
+                    // sh "/kaniko/executor -f Dockerfile -c `pwd` --skip-tls-verify --cache=true --destination=${ECR_PORTAL_IMAGE}"
+                    sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=${ECR_PORTAL_IMAGE}"
                 }
             }
         }

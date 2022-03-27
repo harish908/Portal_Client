@@ -1,5 +1,7 @@
 pipeline{
-    agent none
+    agent{
+        docker { image 'alpine:latest' }
+    }
     parameters{
         string(name: "DOMAIN", defaultValue: "portal", description: "Portal Domain")
         string(name: "SERVICE", defaultValue: "portal-client", description: "Portal Client Service")
@@ -13,24 +15,20 @@ pipeline{
     }
     stages{
         stage('checkout'){
-            node{
-                steps{
+            steps{
                 script{
                     echo "DEPLOY BRANCH: ${params.DEPLOY_BRANCH}"
                     sh(script: "git checkout ${params.DEPLOY_BRANCH}")
                 }
             }
-            }
         }
 
         stage('env'){
-            node{
-                steps{
+            steps{
                 script{
                     env.REVISION = sh(script: "git rev-parse -short HEAD", returnStdout: true).trim()
                     env.ECR_PORTAL_IMAGE = "${ECR_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/${DOMAIN}/${SERVICE}:${REVISION}.${BUILD_NUMBER}"
                 }
-            }
             }
         }
 

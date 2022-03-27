@@ -16,7 +16,7 @@ pipeline{
             agent{
                 docker{ 
                     image 'alpine/git:latest' 
-                    args '--entrypoint='                                // container won't stop, smiliar to cat command 
+                    args '--entrypoint='                                // keep container alive, smiliar to cat command 
                 }
             }
             steps{
@@ -32,7 +32,7 @@ pipeline{
         stage('image'){
             agent{
                 docker{ 
-                    image 'gcr.io/kaniko-project/executor:latest'
+                    image 'gcr.io/kaniko-project/executor:debug'        // use debug version to keep container alive
                     args '--entrypoint='
                 }
             }
@@ -43,7 +43,7 @@ pipeline{
                 //     }
                 // }
                 withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID', credentialsId:'harish-aws-creds', secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]){
-                    sh "/kaniko/executor -f Dockerfile -c `pwd` --skip-tls-verify --cache=true --destination=${ECR_PORTAL_IMAGE}"
+                    sh "/kaniko/executor Dockerfile --context=pathMounted/ --destination=${ECR_PORTAL_IMAGE}"
                 }
             }
         }

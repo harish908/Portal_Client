@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/harish908/Portal_Client/internal/gateways"
@@ -86,6 +89,16 @@ func PostIdeaHandler(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} data.Idea
 // @Router /api/ideas [get]
 func GetIdeasHandler(w http.ResponseWriter, r *http.Request, resp *ServerResp) {
+
+	files, err := ioutil.ReadDir("/templates/")
+	if err != nil {
+		log.Println(err)
+	}
+
+	for _, file := range files {
+		fmt.Println(file.Name(), file.IsDir())
+	}
+
 	body, err := gateways.GetIdeas(resp.ctx)
 	if err != nil {
 		resp.err = err

@@ -7,6 +7,7 @@ COPY go.sum ./
 RUN go mod download
 # Copy all other files and build .exe 
 COPY . ./
+ADD build/docker/templates/template.xlsx /templates/
 RUN go build -o /app/PortalClient
 
 # Use multi-stage to reduce docker image size

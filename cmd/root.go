@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -16,6 +17,7 @@ import (
 )
 
 func Execute() error {
+	fmt.Print("testing in docker file  ")
 	if err := Init(); err != nil {
 		return err
 	}

@@ -3,7 +3,6 @@ package handlers
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"github.com/harish908/Portal_Client/internal/gateways"
@@ -90,14 +89,11 @@ func PostIdeaHandler(w http.ResponseWriter, r *http.Request) {
 // @Router /api/ideas [get]
 func GetIdeasHandler(w http.ResponseWriter, r *http.Request, resp *ServerResp) {
 
-	files, err := ioutil.ReadDir("/templates/")
+	file, err := ioutil.ReadFile("./templates/template.csv")
 	if err != nil {
-		log.Println(err)
+		fmt.Print(err)
 	}
-
-	for _, file := range files {
-		fmt.Println(file.Name(), file.IsDir())
-	}
+	fmt.Print("data ", file)
 
 	body, err := gateways.GetIdeas(resp.ctx)
 	if err != nil {

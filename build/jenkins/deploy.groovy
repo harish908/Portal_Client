@@ -23,6 +23,8 @@ pipeline{
                     sh(script: "git checkout ${params.DEPLOY_BRANCH}")
                     env.REVISION = sh(script: "git rev-parse -short HEAD", returnStdout: true).trim()
                     env.ECR_PORTAL_IMAGE = "${ECR_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/${DOMAIN}:${REVISION}.${BUILD_NUMBER}"
+                    echo "DOCKER IMAGE : ${env.ECR_PORTAL_IMAGE}"
+                    env.ECR_PORTAL_IMAGE = "${ECR_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/${DOMAIN}:latest"
                 }
             }
         }

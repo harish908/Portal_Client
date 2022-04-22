@@ -8,10 +8,12 @@ COPY go.sum ./
 # Copy all other files and build .exe 
 COPY . ./
 RUN go build -o /app/PortalClient
-
-# Use multi-stage to reduce docker image size
-FROM alpine:latest AS production
-WORKDIR /app
-COPY --from=builder /app .
 EXPOSE 8000
 CMD ["/app/PortalClient"]
+
+# Use multi-stage to reduce docker image size
+# FROM alpine:latest AS production
+# WORKDIR /app
+# COPY --from=builder /app .
+#EXPOSE 8000
+# CMD ["/app/PortalClient"]

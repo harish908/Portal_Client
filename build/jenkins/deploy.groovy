@@ -22,9 +22,13 @@ pipeline{
                     echo "DEPLOY BRANCH: ${params.DEPLOY_BRANCH}"
                     sh(script: "git checkout ${params.DEPLOY_BRANCH}")
                     env.REVISION = sh(script: "git rev-parse -short HEAD", returnStdout: true).trim()
-                    env.ECR_PORTAL_IMAGE = "${ECR_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/${DOMAIN}:${REVISION}.${BUILD_NUMBER}"
-                    echo "DOCKER IMAGE : ${env.ECR_PORTAL_IMAGE}"
+                    // env.ECR_PORTAL_IMAGE = "${ECR_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/${DOMAIN}:${REVISION}.${BUILD_NUMBER}"
+                    // echo "DOCKER IMAGE : ${env.ECR_PORTAL_IMAGE}"
                     env.ECR_PORTAL_IMAGE = "${ECR_ACCOUNT_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/${DOMAIN}:latest"
+                    echo "BUILD : ${BUILD_NUMBER}"
+                    echo "BUILD : ${env.BUILD_NUMBER}"
+                    env.GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+                    echo "commit : ${GIT_COMMIT}"
                 }
             }
         }
@@ -36,7 +40,7 @@ pipeline{
                     //     sh "/kaniko/executor -f Dockerfile -c `pwd` --skip-tls-verify --cache=true --destination=${ECR_PORTAL_IMAGE}"
                     // }
                     withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID', credentialsId:'harish-aws-creds', secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]){
-                        sh "/kaniko/executor -f Dockerfile -c `pwd` --skip-tls-verify --destination=${ECR_PORTAL_IMAGE}"
+                        sh "/kaniko/executor -f Dockerfile -c `pwd` --skip-tls-verify --cache=true --destination=${ECR_PORTAL_IMAGE}"
                     }
                 }
             }

@@ -34,15 +34,15 @@ pipeline{
         }
 
         /* Use this stage to build and push image */
-        stage('image'){
-            steps{
-                container('kaniko'){
-                    withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID', credentialsId:'harish-aws-creds', secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]){
-                        sh "/kaniko/executor -f Dockerfile -c `pwd` --skip-tls-verify --cache=true --destination=${ECR_PORTAL_IMAGE}"
-                    }
-                }
-            }
-        }
+        // stage('image'){
+        //     steps{
+        //         container('kaniko'){
+        //             withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID', credentialsId:'harish-aws-creds', secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]){
+        //                 sh "/kaniko/executor -f Dockerfile -c `pwd` --skip-tls-verify --cache=true --destination=${ECR_PORTAL_IMAGE}"
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
 
